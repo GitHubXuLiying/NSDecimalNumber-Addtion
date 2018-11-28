@@ -9,7 +9,8 @@
 #import "NSDecimalNumber+Addtion.h"
 
 @implementation NSDecimalNumber (Addtion)
-+(NSDecimalNumber *)aDecimalNumberWithStringOrNumberOrDecimalNumber:(id)stringOrNumber1 type:(calculationType)type anotherDecimalNumberWithStringOrNumberOrDecimalNumber:(id)stringOrNumber2 andDecimalNumberHandler:(NSDecimalNumberHandler *)handler{
+
++ (NSDecimalNumber *)aDecimalNumberWithStringOrNumberOrDecimalNumber:(id)stringOrNumber1 type:(CalculationType)type anotherDecimalNumberWithStringOrNumberOrDecimalNumber:(id)stringOrNumber2 andDecimalNumberHandler:(NSDecimalNumberHandler *)handler {
     if (!stringOrNumber2 || !stringOrNumber1) {
         NSLog(@"输入正确类型");
         return nil;
@@ -19,53 +20,53 @@
     NSDecimalNumber *returnNum;
     if ([stringOrNumber1 isKindOfClass:[NSString class]]) {
         one = [NSDecimalNumber decimalNumberWithString:stringOrNumber1];
-    }else if([stringOrNumber1 isKindOfClass:[NSDecimalNumber class]]){
+    } else if([stringOrNumber1 isKindOfClass:[NSDecimalNumber class]]) {
         one = stringOrNumber1;
-    }else if ([stringOrNumber1 isKindOfClass:[NSNumber class]]){
+    } else if ([stringOrNumber1 isKindOfClass:[NSNumber class]]) {
         one = [NSDecimalNumber decimalNumberWithDecimal:[stringOrNumber1 decimalValue]];
-    }else{
+    } else{
         NSLog(@"输入正确的类型");
         return nil;
     }
     
     if ([stringOrNumber2 isKindOfClass:[NSString class]]) {
         another = [NSDecimalNumber decimalNumberWithString:stringOrNumber2];
-    }else if([stringOrNumber2 isKindOfClass:[NSDecimalNumber class]]){
+    } else if([stringOrNumber2 isKindOfClass:[NSDecimalNumber class]]) {
         another = stringOrNumber2;
-    }else if ([stringOrNumber2 isKindOfClass:[NSNumber class]]){
+    } else if ([stringOrNumber2 isKindOfClass:[NSNumber class]]) {
         another = [NSDecimalNumber decimalNumberWithDecimal:[stringOrNumber2 decimalValue]];
-    }else{
+    } else{
         NSLog(@"输入正确的类型");
         return nil;
     }
     if (type == Add) {
         returnNum = [one decimalNumberByAdding:another];
-    }else if (type == Subtract){
+    } else if (type == Subtract) {
         returnNum  = [one decimalNumberBySubtracting:another];
-    }else if (type == Multiply){
+    } else if (type == Multiply) {
         returnNum = [one decimalNumberByMultiplyingBy:another];
-    }else if (type == Divide){
+    } else if (type == Divide) {
         
         if ([NSDecimalNumber aDecimalNumberWithStringOrNumberOrDecimalNumber:another compareAnotherDecimalNumberWithStringOrNumberOrDecimalNumber:@(0)] == 0) {
             returnNum = nil;
-        }else
+        } else
             returnNum = [one decimalNumberByDividingBy:another];
-    }else{
+    } else{
         returnNum = nil;
     }
     if (returnNum) {
         if (handler) {
             return [returnNum decimalNumberByRoundingAccordingToBehavior:handler];
-        }else{
+        } else{
             return returnNum;
         }
-    }else{
+    } else{
         NSLog(@"输入正确的类型");
         return nil;
     }
 }
 
-+(NSComparisonResult)aDecimalNumberWithStringOrNumberOrDecimalNumber:(id)stringOrNumber1 compareAnotherDecimalNumberWithStringOrNumberOrDecimalNumber:(id)stringOrNumber2{
++ (NSComparisonResult)aDecimalNumberWithStringOrNumberOrDecimalNumber:(id)stringOrNumber1 compareAnotherDecimalNumberWithStringOrNumberOrDecimalNumber:(id)stringOrNumber2 {
     if (!stringOrNumber2 || !stringOrNumber1) {
         NSLog(@"输入正确类型");
         return -404;
@@ -74,29 +75,29 @@
     NSDecimalNumber *another;
     if ([stringOrNumber1 isKindOfClass:[NSString class]]) {
         one = [NSDecimalNumber decimalNumberWithString:stringOrNumber1];
-    }else if([stringOrNumber1 isKindOfClass:[NSDecimalNumber class]]){
+    } else if([stringOrNumber1 isKindOfClass:[NSDecimalNumber class]]) {
         one = stringOrNumber1;
-    }else if ([stringOrNumber1 isKindOfClass:[NSNumber class]]){
+    } else if ([stringOrNumber1 isKindOfClass:[NSNumber class]]) {
         one = [NSDecimalNumber decimalNumberWithDecimal:[stringOrNumber1 decimalValue]];
-    }else{
+    } else{
         NSLog(@"输入正确的类型");
         return -404;
     }
     
     if ([stringOrNumber2 isKindOfClass:[NSString class]]) {
         another = [NSDecimalNumber decimalNumberWithString:stringOrNumber2];
-    }else if([stringOrNumber2 isKindOfClass:[NSDecimalNumber class]]){
+    } else if([stringOrNumber2 isKindOfClass:[NSDecimalNumber class]]) {
         another = stringOrNumber2;
-    }else if ([stringOrNumber2 isKindOfClass:[NSNumber class]]){
+    } else if ([stringOrNumber2 isKindOfClass:[NSNumber class]]) {
         another = [NSDecimalNumber decimalNumberWithDecimal:[stringOrNumber2 decimalValue]];
-    }else{
+    } else{
         NSLog(@"输入正确的类型");
         return -404;
     }
     return [one compare:another];
 }
 
-+(NSString *)stringWithDecimalNumber:(NSDecimalNumber *)str1 scale:(NSInteger)scale{
++ (NSString *)stringWithDecimalNumber:(NSDecimalNumber *)str1 scale:(NSInteger)scale {
     if (!str1) {
         return @"";
     }
@@ -110,10 +111,10 @@
                     str = [str stringByAppendingString:@"0"];
                 }
                 return str;
-            }else{
+            } else{
                 return arr[0];
             }
-        }else{//没有小数点
+        } else{//没有小数点
             if ([str rangeOfString:@"."].length) {
                 return @"";
             }
@@ -123,32 +124,32 @@
                     str = [str stringByAppendingString:@"0"];
                 }
                 return str;
-            }else{
+            } else{
                 return str;
             }
         }
-    }else{
+    } else{
         return @"";
     }
 }
 
-NSComparisonResult StrNumCompare(id str1,id str2){
+NSComparisonResult StrNumCompare(id str1,id str2) {
     return [NSDecimalNumber aDecimalNumberWithStringOrNumberOrDecimalNumber:str1 compareAnotherDecimalNumberWithStringOrNumberOrDecimalNumber:str2];
 }
 
-NSDecimalNumber *handlerDecimalNumber(id strOrNum,NSRoundingMode mode,int scale){
+NSDecimalNumber *handlerDecimalNumber(id strOrNum,NSRoundingMode mode,int scale) {
     if (!strOrNum) {
         NSLog(@"输入正确类型");
         return nil;
-    }else{
+    } else{
         NSDecimalNumber *one;
         if ([strOrNum isKindOfClass:[NSString class]]) {
             one = [NSDecimalNumber decimalNumberWithString:strOrNum];
-        }else if([strOrNum isKindOfClass:[NSDecimalNumber class]]){
+        } else if([strOrNum isKindOfClass:[NSDecimalNumber class]]) {
             one = strOrNum;
-        }else if ([strOrNum isKindOfClass:[NSNumber class]]){
+        } else if ([strOrNum isKindOfClass:[NSNumber class]]) {
             one = [NSDecimalNumber decimalNumberWithDecimal:[strOrNum decimalValue]];
-        }else{
+        } else{
             NSLog(@"输入正确的类型");
             return nil;
         }
@@ -159,49 +160,55 @@ NSDecimalNumber *handlerDecimalNumber(id strOrNum,NSRoundingMode mode,int scale)
 }
 
 
-NSDecimalNumber *SNAdd(id strOrNum1,id strOrNum2){
+NSDecimalNumber *SNAdd(id strOrNum1,id strOrNum2) {
     return [NSDecimalNumber aDecimalNumberWithStringOrNumberOrDecimalNumber:strOrNum1 type:Add anotherDecimalNumberWithStringOrNumberOrDecimalNumber:strOrNum2 andDecimalNumberHandler:nil];
 }
 
-NSDecimalNumber *SNSub(id strOrNum1,id strOrNum2){
+NSDecimalNumber *SNSub(id strOrNum1,id strOrNum2) {
     return [NSDecimalNumber aDecimalNumberWithStringOrNumberOrDecimalNumber:strOrNum1 type:Subtract anotherDecimalNumberWithStringOrNumberOrDecimalNumber:strOrNum2 andDecimalNumberHandler:nil];
 }
-NSDecimalNumber *SNMul(id strOrNum1,id strOrNum2){
+
+NSDecimalNumber *SNMul(id strOrNum1,id strOrNum2) {
     return [NSDecimalNumber aDecimalNumberWithStringOrNumberOrDecimalNumber:strOrNum1 type:Multiply anotherDecimalNumberWithStringOrNumberOrDecimalNumber:strOrNum2 andDecimalNumberHandler:nil];
 }
 
-NSDecimalNumber *SNDiv(id strOrNum1,id strOrNum2){
+NSDecimalNumber *SNDiv(id strOrNum1,id strOrNum2) {
     return [NSDecimalNumber aDecimalNumberWithStringOrNumberOrDecimalNumber:strOrNum1 type:Divide anotherDecimalNumberWithStringOrNumberOrDecimalNumber:strOrNum2 andDecimalNumberHandler:nil];
 }
 
-NSComparisonResult SNCompare(id strOrNum1,id strOrNum2){
+NSComparisonResult SNCompare(id strOrNum1,id strOrNum2) {
     return [NSDecimalNumber aDecimalNumberWithStringOrNumberOrDecimalNumber:strOrNum1 compareAnotherDecimalNumberWithStringOrNumberOrDecimalNumber:strOrNum2];
 }
 
-NSDecimalNumber *SNMin(id strOrNum1,id strOrNum2){
+NSDecimalNumber *SNMin(id strOrNum1,id strOrNum2) {
     return SNCompare(strOrNum1, strOrNum2) > 0 ? strOrNum2 : strOrNum1;
 }
-NSDecimalNumber *SNMax(id strOrNum1,id strOrNum2){
+
+NSDecimalNumber *SNMax(id strOrNum1,id strOrNum2) {
     return SNCompare(strOrNum1, strOrNum2) > 0 ? strOrNum1 : strOrNum2;
 }
-NSDecimalNumber *SNAdd_handler(id strOrNum1,id strOrNum2,NSRoundingMode mode,int scale){
+
+NSDecimalNumber *SNAdd_handler(id strOrNum1,id strOrNum2,NSRoundingMode mode,int scale) {
     return handlerDecimalNumber(SNAdd(strOrNum1, strOrNum2), mode, scale);
 }
-NSDecimalNumber *SNSub_handler(id strOrNum1,id strOrNum2,NSRoundingMode mode,int scale){
+
+NSDecimalNumber *SNSub_handler(id strOrNum1,id strOrNum2,NSRoundingMode mode,int scale) {
     return handlerDecimalNumber(SNSub(strOrNum1, strOrNum2), mode, scale);
 }
-NSDecimalNumber *SNMul_handler(id strOrNum1,id strOrNum2,NSRoundingMode mode,int scale){
+
+NSDecimalNumber *SNMul_handler(id strOrNum1,id strOrNum2,NSRoundingMode mode,int scale) {
     return handlerDecimalNumber(SNMul(strOrNum1, strOrNum2), mode, scale);
 }
-NSDecimalNumber *SNDiv_handler(id strOrNum1,id strOrNum2,NSRoundingMode mode,int scale){
+
+NSDecimalNumber *SNDiv_handler(id strOrNum1,id strOrNum2,NSRoundingMode mode,int scale) {
     return handlerDecimalNumber(SNDiv(strOrNum1, strOrNum2), mode, scale);
 }
 
-
-NSDecimalNumber *SNMin_handler(id strOrNum1,id strOrNum2,NSRoundingMode mode,int scale){
+NSDecimalNumber *SNMin_handler(id strOrNum1,id strOrNum2,NSRoundingMode mode,int scale) {
     return handlerDecimalNumber(SNMin(strOrNum1, strOrNum2), mode, scale);
 }
-NSDecimalNumber *SNMax_handler(id strOrNum1,id strOrNum2,NSRoundingMode mode,int scale){
+
+NSDecimalNumber *SNMax_handler(id strOrNum1,id strOrNum2,NSRoundingMode mode,int scale) {
     return handlerDecimalNumber(SNMax(strOrNum1, strOrNum2), mode, scale);
 }
 
